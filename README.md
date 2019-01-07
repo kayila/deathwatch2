@@ -2,13 +2,17 @@
 
 ??? TODO: Write a readme.
 
-## Miscellaneous Notes
-
 Forge mod development getting started guide: http://mcforge.readthedocs.io/en/latest/gettingstarted/
 
-Windows: `gradlew setupDecompWorkspace`
-Linux/Mac OS: `./gradlew setupDecompWorkspace`
+## Initial setup
 
+- Windows: `gradlew setupDecompWorkspace`
+- Linux/Mac OS: `./gradlew setupDecompWorkspace`
+
+## Build
+
+- Windows: `gradelw build`
+- Linux/Mac OS: `./gradelw build`
 
 ## Copy/pasted from example README.txt because it's potentially useful
 
