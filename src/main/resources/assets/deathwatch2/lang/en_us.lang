@@ -1,0 +1,8 @@
+# Main body of in game death display message
+command.deathwatch2.display.death.last=%3$s last died in dimension %4$s at %5$s %6$son %1$s at %2$s
+# From clause
+command.deathwatch2.from=from %s
+# By clause
+command.deathwatch2.by=by %s
+# Displayed when no previous death was recorded
+command.deathwatch2.notfound=I couldn't find a death for you! Good job!

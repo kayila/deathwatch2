@@ -24,3 +24,7 @@ eclipse/
 .gradle/
 .settings/
 *.bak
+logs/
+
+# Temp files
+*~
