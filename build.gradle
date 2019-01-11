@@ -63,6 +63,14 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.4.0.Final'
     compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.2.Final'
     
+    // Jetty embedded web server
+    compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.14.v20181114'
+    compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.14.v20181114'
+    
+    // Jackson for Json processing
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.8'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+    
     // TestNG for testing
     testCompile group: 'org.testng', name: 'testng', version: '6.14.3'
 }

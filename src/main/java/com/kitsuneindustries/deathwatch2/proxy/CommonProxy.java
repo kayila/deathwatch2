@@ -1,47 +1,48 @@
 package com.kitsuneindustries.deathwatch2.proxy;
 
-import java.io.File;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletHandler;
 
-import javax.annotation.Nullable;
-
-import com.kitsuneindustries.deathwatch2.Config;
-import com.kitsuneindustries.deathwatch2.Deathwatch2;
-import com.kitsuneindustries.deathwatch2.command.DWCommand;
-import com.kitsuneindustries.deathwatch2.store.PersistanceHelper;
-
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
-@Mod.EventBusSubscriber
+import com.kitsuneindustries.deathwatch2.ModConfig;
+import com.kitsuneindustries.deathwatch2.command.DWCommand;
+import com.kitsuneindustries.deathwatch2.store.PersistanceHelper;
+import com.kitsuneindustries.deathwatch2.web.DeathwatchServlet;
+
 public class CommonProxy {
 	
-	@Nullable private static Configuration config;
-	
-	@Nullable
-	public static Configuration getConfig() {
-		return config;
-	}
+	private static final Logger log = LogManager.getLogger(CommonProxy.class);
 	
 	public void preInit(FMLPreInitializationEvent event) {
-		Deathwatch2.getLogger().info("CommonProxy preInit");
-		File directory = event.getModConfigurationDirectory();
-		config = new Configuration(new File(directory.getPath(), "deathwatch2.cfg"));
-		Config.readConfig();
+		ModConfig.sync();
 	}
 	
 	public void postInit(FMLPostInitializationEvent event) {
-		Deathwatch2.getLogger().info("CommonProxy postInit");
-		if (config.hasChanged()) {
-			config.save();
-		}
 	}
 
 	public void serverLoad(FMLServerStartingEvent event) {
 		PersistanceHelper.setup();
 		event.registerServerCommand(new DWCommand());
+		
+		if (ModConfig.webserver.enabled) {
+			// Start the embedded web server
+			Server webserver = new Server(ModConfig.webserver.port);
+			ServletHandler servletHandler = new ServletHandler();
+			webserver.setHandler(servletHandler);
+			servletHandler.addServletWithMapping(DeathwatchServlet.class, "/*");
+			//servletHandler.
+			try {
+				webserver.start();
+			} catch (Exception e) {
+				log.error("Error starting embedded web server", e);
+				
+			}
+		}
 	}
 
 }
